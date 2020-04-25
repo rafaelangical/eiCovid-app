@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "483159012996",
+    "firebase_url": "https://ei-covid.firebaseio.com",
+    "project_id": "ei-covid",
+    "storage_bucket": "ei-covid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:483159012996:android:1cac084c7fd34495f6f4d1",
+        "android_client_info": {
+          "package_name": "eiCovid.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "483159012996-9pucevturd37l9d76dn79up97k8m0i0m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5DdXgAtrXXBWUy4gkkYDCB77vTsgAuw4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "483159012996-9pucevturd37l9d76dn79up97k8m0i0m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,12 +1,16 @@
 {
   "expo": {
-    "name": "eiCovid",
+    "name": "eiCovid.com",
     "slug": "eiCovid",
     "platforms": [
       "ios",
       "android",
       "web"
     ],
+    "android": {
+      "package": "eiCovid.com",
+      "googleServicesFile": "./google-services.json"
+    },
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

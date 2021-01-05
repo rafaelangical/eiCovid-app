@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Ionicons } from '@expo/vector-icons';
 import { useHistory } from 'react-router-dom';
-import Input from '../components/Input';
-import Button from '../components/Button';
+import Input from '../../../components/Input';
+import Button from '../../../components/Button';
 
 const Wrapper = styled.View`
   flex: 1;
@@ -60,29 +60,35 @@ const TextHelpSteps = styled.Text`
 `;
 
 export default function Complaint() {
+  const [ error, setError ] = useState(false);
 
   const history = useHistory();
   const [successPage, setSucessPage] = useState(false);
 
   async function renderSuccess() {
-    setSucessPage(true);
+    if(error) {
+      alert('Corriga os erros e tente novamente')
+    }else {
+      setSucessPage(true);
+    }
   }
+
   return(
     <Wrapper>
       {!successPage ? (
         <>
-          <ArrowBack onPress={() => history.goBack()}>
+          {/* <ArrowBack onPress={() => history.goBack()}>
             <Ionicons name="ios-arrow-back" size={40} color="black" />
-          </ArrowBack>
+          </ArrowBack> */}
           <Scroll contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}>
-            <Title>Denúncia</Title>
+            <Title>Denúncias</Title>
             <TextHelpSteps>Aqui você pode denunciar de forma anônima os estabelecimentos que não estão cumprindo com as regras estabelecidas pelo governo.</TextHelpSteps>
-            <Input placeHolder="Tipo de estabelecimento" />
-            <Input placeHolder="Nome do estabelecimento" />
-            <Input placeHolder="Data da irregularidade" />
-            <Input placeHolder="Endereço do estabelecimento" />
-            <Input placeHolder="Numero do estabelecimento, caso haja" />
-            <Input placeHolder="Irregulariade" />
+            <Input placeHolder="Tipo de estabelecimento" lengthValidade={4} />
+            <Input placeHolder="Nome do estabelecimento" lengthValidade={5} />
+            <Input placeHolder="Data da irregularidade" lengthValidade={20} />
+            <Input placeHolder="Endereço do estabelecimento" lengthValidade={10} />
+            <Input placeHolder="Numero do estabelecimento, caso haja" lengthValidade={1} />
+            <Input placeHolder="Irregulariade" lengthValidade={4} />
             <Divider>
               <Button message="Enviar" onPress={() => renderSuccess()}/>
             </Divider>
@@ -90,7 +96,7 @@ export default function Complaint() {
         </>
       ) : (
         <>
-          <ArrowBack onPress={() => history.goBack()}>
+          <ArrowBack onPress={() => setSucessPage(!successPage)}>
             <Ionicons name="ios-arrow-back" size={40} color="black" />
           </ArrowBack>
           <Wrapper>

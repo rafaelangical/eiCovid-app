@@ -62,7 +62,7 @@ export default class Notification extends React.Component {
       to: this.state.expoPushToken,
       sound: 'default',
       title: 'Covid-19 alerta',
-      body: 'Não se esqueça de lavar as mãos ou usar alcool em gel',
+      body: 'Recomendações:\n- Não se esqueça de lavar as mãos ou usar alcool em gel. \n- Sempre que puder fique em casa. \n- Quando for sair use máscara de proteção.',
       data: { data: 'rafael teste' },
       _displayInForeground: true,
     };
@@ -75,10 +75,15 @@ export default class Notification extends React.Component {
       },
       body: JSON.stringify(message),
     });
-    alert('Notificação enviada')
+    // alert('Notificação enviada')
   };
+  
 
   render() {
+    // setInterval(function() { 
+    //   console.log("Notification sended with success!"); 
+    //   this.sendPushNotification()
+    // }.bind(this), 300000);
     return (
       <View
         style={{

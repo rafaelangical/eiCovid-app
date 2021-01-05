@@ -9,7 +9,8 @@
     ],
     "android": {
       "package": "eiCovid.com",
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "enableDangerousExperimentalLeanBuilds": true
     },
     "version": "1.0.0",
     "orientation": "portrait",

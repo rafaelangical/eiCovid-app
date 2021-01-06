@@ -12,10 +12,14 @@ export default class Notification extends React.Component {
 
   registerForPushNotificationsAsync = async () => {
     if (Constants.isDevice) {
-      const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+      const { status: existingStatus } = await Permissions.getAsync(
+        Permissions.NOTIFICATIONS
+      );
       let finalStatus = existingStatus;
       if (existingStatus !== 'granted') {
-        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+        const { status } = await Permissions.askAsync(
+          Permissions.NOTIFICATIONS
+        );
         finalStatus = status;
       }
       if (finalStatus !== 'granted') {
@@ -47,10 +51,12 @@ export default class Notification extends React.Component {
     // notification (rather than just tapping the app icon to open it),
     // this function will fire on the next tick after the app starts
     // with the notification data.
-    this._notificationSubscription = Notifications.addListener(this._handleNotification);
+    this._notificationSubscription = Notifications.addListener(
+      this._handleNotification
+    );
   }
 
-  _handleNotification = notification => {
+  _handleNotification = (notification) => {
     Vibration.vibrate();
     console.log(notification);
     this.setState({ notification: notification });
@@ -62,7 +68,8 @@ export default class Notification extends React.Component {
       to: this.state.expoPushToken,
       sound: 'default',
       title: 'Covid-19 alerta',
-      body: 'Recomendações:\n- Não se esqueça de lavar as mãos ou usar alcool em gel. \n- Sempre que puder fique em casa. \n- Quando for sair use máscara de proteção.',
+      body:
+        'Recomendações:\n- Não se esqueça de lavar as mãos ou usar alcool em gel. \n- Sempre que puder fique em casa. \n- Quando for sair use máscara de proteção.',
       data: { data: 'rafael teste' },
       _displayInForeground: true,
     };
@@ -77,11 +84,10 @@ export default class Notification extends React.Component {
     });
     // alert('Notificação enviada')
   };
-  
 
   render() {
-    // setInterval(function() { 
-    //   console.log("Notification sended with success!"); 
+    // setInterval(function() {
+    //   console.log("Notification sended with success!");
     //   this.sendPushNotification()
     // }.bind(this), 300000);
     return (
@@ -93,12 +99,17 @@ export default class Notification extends React.Component {
           marginBottom: 50,
           alignItems: 'center',
           justifyContent: 'space-around',
-        }}>
+        }}
+      >
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <Text>Origin: {this.state.notification.origin}</Text>
           <Text>Data: {JSON.stringify(this.state.notification.data)}</Text>
         </View>
-        <Button title={'Testar notificações'} onPress={() => this.sendPushNotification()} style={{height: 100}}/>
+        <Button
+          title={'Testar notificações'}
+          onPress={() => this.sendPushNotification()}
+          style={{ height: 100 }}
+        />
       </View>
     );
   }

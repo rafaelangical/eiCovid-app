@@ -1,72 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Dimensions } from 'react-native'; 
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart
-} from "react-native-chart-kit";
+import { Dimensions } from 'react-native';
+import { BarChart, PieChart } from 'react-native-chart-kit';
+import axios from 'axios';
+import moment from 'moment';
+import Spinner from 'react-native-loading-spinner-overlay';
 
-const screenWidth = Dimensions.get("window").width;
-
-const chartConfig = {
-  backgroundGradientFrom: "#1E2923",
-  backgroundGradientFromOpacity: 0,
-  backgroundGradientTo: "#08130D",
-  backgroundGradientToOpacity: 0.5,
-  color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-  strokeWidth: 2, // optional, default 3
-  barPercentage: 0.5
-};
-
-const data = [
-  {
-    name: "Crianças",
-    cases: 123,
-    color: "rgba(131, 167, 234, 1)",
-    legendFontColor: "#7F7F7F",
-    legendFontSize: 15
-  },
-  {
-    name: "Adolescentes",
-    cases: 280,
-    color: "#F00",
-    legendFontColor: "#7F7F7F",
-    legendFontSize: 15
-  },
-  {
-    name: "Adultos",
-    cases: 527,
-    color: "red",
-    legendFontColor: "#7F7F7F",
-    legendFontSize: 15
-  },
-  {
-    name: "Idosos",
-    cases: 83,
-    color: "#ffffff",
-    legendFontColor: "#7F7F7F",
-    legendFontSize: 15
-  }
-];
-
-const dataAcess = {
-  labels: ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"],
-  datasets: [
-    {
-      data: [20, 45, 28, 80, 99, 43, 100]
-    }
-  ]
+const formatValue = (valor) => {
+  return valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 };
 
 const Wrapper = styled.ScrollView`
-    flex-direction: column;
-    background-color: #FFB9A6;
-    width: 100%;
-    padding-bottom: 0;
+  flex-direction: column;
+  background-color: #ffb9a6;
+  width: 100%;
+  padding-bottom: 0;
 `;
 
 const Divider = styled.View`
@@ -81,23 +29,33 @@ const Divider = styled.View`
 `;
 
 const Title = styled.Text`
-    font-size: 30px;
-    letter-spacing: 1px;
-    margin: 0 auto;
-    margin-top: 80px;
-    margin-bottom: 30px;
-    font-family: roboto-bold;
-    color: #FFF;
+  font-size: 30px;
+  letter-spacing: 1px;
+  margin: 0 auto;
+  margin-top: 80px;
+  margin-bottom: 30px;
+  font-family: roboto-bold;
+  color: #fff;
 `;
 
 const TextHelp = styled.Text`
-    color: #000;
-    width: 90%;
-    flex-wrap: wrap;
-    margin: 0 auto;
-    font-size: 24px;
-    margin-top: 30px;
-    font-family: raleway-regular;
+  color: #000;
+  width: 90%;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  font-size: 24px;
+  margin-top: 15px;
+  font-family: raleway-regular;
+`;
+
+const TextData = styled.Text`
+  color: #000;
+  width: 90%;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  font-size: 16px;
+  margin-top: 15px;
+  font-family: raleway-regular;
 `;
 
 const TextHelpFirst = styled(TextHelp)`
@@ -111,92 +69,104 @@ const SpanBold = styled(TextHelp)`
   align-self: center;
   margin-top: 20px;
   margin-bottom: 20px;
-`; 
+`;
 const Paragraphs = styled(TextHelp)`
-    font-size: 30px;
-    color: darkblue;
-    font-family: indie-flower;
-    margin: 0 auto;
+  font-size: 30px;
+  color: darkblue;
+  font-family: indie-flower;
+  margin: 0 auto;
 `;
 
-export default function Estatistics() {
+const RowStatesCases = styled.View`
+  width: 50%;
+  height: 60px;
+  background-color: #fff;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 6px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+`;
+
+const StateName = styled.Text`
+  font-size: 22px;
+  margin-left: 10px;
+  font-weight: 600;
+`;
+const StateCases = styled.Text`
+  font-size: 20px;
+  margin-left: 20px;
+`;
+
+const Estatistics = () => {
+  const [dataApi, setDataApi] = useState(null);
+  const [graphicData, setGraphicData] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await axios.get(
+        'https://api.apify.com/v2/key-value-stores/TyToNta7jGKkpszMZ/records/LATEST?disableRedirect=true'
+      );
+      setDataApi(data);
+
+      const graphic = data?.infectedByRegion?.map((item) => {
+        return {
+          name: item.state,
+          cases: item.count,
+        };
+      });
+
+      graphic && setGraphicData(graphic);
+      return data;
+    };
+    fetchData();
+  }, []);
   return (
     <Wrapper>
       <Title>Estatísticas</Title>
-      <Divider>
-        <SpanBold style={{marginLeft: 100, marginRight: 100}}>Casos no brasil</SpanBold>
-        <TextHelpFirst style={{color: 'darkblue'}}>Casos descartados: 50</TextHelpFirst>
-        <TextHelpFirst style={{color: '#000'}}>Casos suspeitos: 50</TextHelpFirst>
-        <TextHelpFirst style={{color: 'darkgreen'}}>Casos confirmados: 50</TextHelpFirst>
-        <TextHelpFirst style={{color: 'red'}}>Mortes: 50</TextHelpFirst>
-      </Divider>
-      <SpanBold>Uso por idade</SpanBold>
-      <PieChart
-        data={data}
-        width={screenWidth}
-        height={220}
-        chartConfig={chartConfig}
-        accessor="cases"
-        backgroundColor="transparent"
-        paddingLeft="15"
-      />
-      <SpanBold>Casos descartados verificados pelo app</SpanBold>
-      <BarChart
-        // style={{graphStyle: 16, propsForDots: {
-        //   r: "6",
-        //   strokeWidth: "2",
-        //   stroke: "#999"
-        // }}}
-        style={{
-          marginVertical: 20,
-          // borderRadius: 16,
-          width: '100%',
-          backgroundColor: "darkgreen"
-        }}
-        data={dataAcess}
-        width={screenWidth}
-        height={300}
-        // yAxisLabel="$"
-        chartConfig={chartConfig}
-        verticalLabelRotation={20}
-      />
-      <SpanBold>Casos suspeitos verificados pelo app</SpanBold>
-      <BarChart
-        // style={{graphStyle: 16, propsForDots: {
-        //   r: "6",
-        //   strokeWidth: "2",
-        //   stroke: "#999"
-        // }}}
-        style={{
-          marginVertical: 20,
-          backgroundColor: "#999"
-        }}
-        data={dataAcess}
-        width={screenWidth}
-        height={300}
-        // yAxisLabel="$"
-        chartConfig={chartConfig}
-        verticalLabelRotation={30}
-      />
-      <SpanBold>Casos confirmados verificado pelo app</SpanBold>
-      <BarChart
-        // style={{graphStyle: 16, propsForDots: {
-        //   r: "6",
-        //   strokeWidth: "2",
-        //   stroke: "#999"
-        // }}}
-        style={{
-          marginVertical: 20,
-          backgroundColor: "darkred"
-        }}
-        data={dataAcess}
-        width={screenWidth}
-        height={300}
-        // yAxisLabel="$"
-        chartConfig={chartConfig}
-        verticalLabelRotation={30}
-      />
-    {/* <Notification /> */}
+      {dataApi ? (
+        <Divider>
+          <SpanBold style={{ marginLeft: 100, marginRight: 100 }}>
+            Casos no brazil:
+          </SpanBold>
+          <TextHelpFirst style={{ color: 'darkblue' }}>
+            Recuperados: {formatValue(Number(dataApi.recovered || 0))}
+          </TextHelpFirst>
+          <TextHelpFirst style={{ color: 'darkgreen' }}>
+            Casos confirmados: {formatValue(Number(dataApi.infected || 0))}
+          </TextHelpFirst>
+          <TextHelpFirst style={{ color: 'red' }}>
+            Mortes: {formatValue(Number(dataApi.deceased || 0))}
+          </TextHelpFirst>
+
+          <TextData>
+            Atualizado em:{' '}
+            {moment(dataApi.lastUpdatedAtApify || new Date()).format(
+              'DD/MM/YYYY'
+            )}
+          </TextData>
+        </Divider>
+      ) : (
+        <Spinner visible={!dataApi} textContent={'Loading...'} textStyle={{}} />
+      )}
+      <SpanBold>Casos por estado:</SpanBold>
+
+      {graphicData ? (
+        graphicData.map((item) => (
+          <RowStatesCases>
+            <StateName>{item.name}</StateName>
+            <StateCases>{formatValue(Number(item.cases || 0))}</StateCases>
+          </RowStatesCases>
+        ))
+      ) : (
+        <Spinner
+          visible={!graphicData}
+          textContent={'Loading...'}
+          textStyle={{}}
+        />
+      )}
     </Wrapper>
-  )
-}
+  );
+};
+
+export default Estatistics;

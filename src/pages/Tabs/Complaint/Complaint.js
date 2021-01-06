@@ -42,55 +42,69 @@ const ArrowBack = styled.TouchableOpacity`
 `;
 
 const Divider = styled.View`
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-    margin-top: 40px;
-    margin-bottom: 40px; 
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 40px;
+  margin-bottom: 40px;
 `;
 
 const TextHelpSteps = styled.Text`
-    width: 90%;
-    margin: 10px;
-    margin: 0 auto;
-    font-size: 24px;
-    color: #002F5C;
-    font-family: roboto-regular;
+  width: 90%;
+  margin: 10px;
+  margin: 0 auto;
+  font-size: 24px;
+  color: #002f5c;
+  font-family: roboto-regular;
 `;
 
 export default function Complaint() {
-  const [ error, setError ] = useState(false);
+  const [error, setError] = useState(false);
 
   const history = useHistory();
   const [successPage, setSucessPage] = useState(false);
 
   async function renderSuccess() {
-    if(error) {
-      alert('Corriga os erros e tente novamente')
-    }else {
+    if (error) {
+      alert('Corriga os erros e tente novamente');
+    } else {
       setSucessPage(true);
     }
   }
 
-  return(
+  return (
     <Wrapper>
       {!successPage ? (
         <>
           {/* <ArrowBack onPress={() => history.goBack()}>
             <Ionicons name="ios-arrow-back" size={40} color="black" />
           </ArrowBack> */}
-          <Scroll contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}>
+          <Scroll
+            contentContainerStyle={{
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
             <Title>Denúncias</Title>
-            <TextHelpSteps>Aqui você pode denunciar de forma anônima os estabelecimentos que não estão cumprindo com as regras estabelecidas pelo governo.</TextHelpSteps>
+            <TextHelpSteps>
+              Aqui você pode denunciar de forma anônima os estabelecimentos que
+              não estão cumprindo com as regras estabelecidas pelo governo.
+            </TextHelpSteps>
             <Input placeHolder="Tipo de estabelecimento" lengthValidade={4} />
             <Input placeHolder="Nome do estabelecimento" lengthValidade={5} />
             <Input placeHolder="Data da irregularidade" lengthValidade={20} />
-            <Input placeHolder="Endereço do estabelecimento" lengthValidade={10} />
-            <Input placeHolder="Numero do estabelecimento, caso haja" lengthValidade={1} />
+            <Input
+              placeHolder="Endereço do estabelecimento"
+              lengthValidade={10}
+            />
+            <Input
+              placeHolder="Numero do estabelecimento, caso haja"
+              lengthValidade={1}
+            />
             <Input placeHolder="Irregulariade" lengthValidade={4} />
             <Divider>
-              <Button message="Enviar" onPress={() => renderSuccess()}/>
+              <Button message="Enviar" onPress={() => renderSuccess()} />
             </Divider>
           </Scroll>
         </>
@@ -104,11 +118,13 @@ export default function Complaint() {
             <Divider>
               <TextHelpSteps>Denuncia realizada com sucesso !</TextHelpSteps>
               <Divider></Divider>
-              <TextHelpSteps>Obrigado por nos ajudar no combate contra o coronavirus.</TextHelpSteps>
+              <TextHelpSteps>
+                Obrigado por nos ajudar no combate contra o coronavirus.
+              </TextHelpSteps>
             </Divider>
           </Wrapper>
         </>
       )}
     </Wrapper>
-  )
+  );
 }

@@ -13,7 +13,7 @@ const Title = styled.Text`
   margin-top: 50px;
   margin-bottom: 30px;
   font-family: roboto-bold;
-  color: #FFB9A6;
+  color: #ffb9a6;
 `;
 
 const TextHelp = styled.Text`
@@ -23,25 +23,47 @@ const TextHelp = styled.Text`
   margin: 0 auto;
   font-size: 24px;
   font-family: raleway-regular;
+  text-align: justify;
+`;
+
+const Paragraphs = styled(TextHelp)`
+  font-size: 30px;
+  color: darkblue;
+  font-family: indie-flower;
+  text-align: justify;
+  margin-top: 25px;
 `;
 
 const ImagePrevencao = styled.Image`
   width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
   height: 1000px;
-  margin-top: 50px;
+  margin-top: 35px;
 `;
 
 export default function Recomendations() {
   return (
     <WrapperImage>
-
       <Title>Recomendações</Title>
       <TextHelp>
-        Para combater que a pandemia se plolifere mais ainda todos nós devemos fazer nossa parte.
+        Para combater que a pandemia se plolifere mais ainda todos nós devemos
+        fazer nossa parte.
       </TextHelp>
-      <WrapperImage contentContainerStyle={{ paddingBottom: 50, alignItems: 'center', flexDirection: 'column', justifyContent: 'center' }}>
-        <ImagePrevencao source={require('../../../../assets/prevenção.png')} resizeMode={'cover'}/>
+      <Paragraphs>Com isso devemos:</Paragraphs>
+      <WrapperImage
+        contentContainerStyle={{
+          paddingBottom: 50,
+          alignItems: 'center',
+          flexDirection: 'column',
+          justifyContent: 'center',
+        }}
+      >
+        <ImagePrevencao
+          source={require('../../../../assets/prevenção.png')}
+          resizeMode={'cover'}
+        />
       </WrapperImage>
     </WrapperImage>
-  )
+  );
 }

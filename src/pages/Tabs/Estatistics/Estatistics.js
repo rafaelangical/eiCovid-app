@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Dimensions } from 'react-native';
-import { BarChart, PieChart } from 'react-native-chart-kit';
 import axios from 'axios';
 import moment from 'moment';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -19,13 +17,16 @@ const Wrapper = styled.ScrollView`
 
 const Divider = styled.View`
   width: 90%;
-  height: 250px;
+  height: 200px;
   background-color: #fff;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
   border-radius: 6px;
   margin: 0 auto;
+  border: 1px solid #999;
+  border-right-width: 3px;
+  border-top-width: 2px;
 `;
 
 const Title = styled.Text`
@@ -87,6 +88,9 @@ const RowStatesCases = styled.View`
   border-radius: 6px;
   margin-left: 20px;
   margin-bottom: 10px;
+  border: 1px solid #999;
+  border-right-width: 3px;
+  border-top-width: 2px;
 `;
 
 const StateName = styled.Text`
@@ -97,6 +101,7 @@ const StateName = styled.Text`
 const StateCases = styled.Text`
   font-size: 20px;
   margin-left: 20px;
+  font-family: raleway-regular;
 `;
 
 const Estatistics = () => {
@@ -123,47 +128,41 @@ const Estatistics = () => {
   }, []);
   return (
     <Wrapper>
-      <Title>Estatísticas</Title>
-      {dataApi ? (
-        <Divider>
+      {dataApi && graphicData ? (
+        <>
+          <Title>Estatísticas</Title>
           <SpanBold style={{ marginLeft: 100, marginRight: 100 }}>
-            Casos no brazil:
+            Casos de covid-19 no Brasil:
           </SpanBold>
-          <TextHelpFirst style={{ color: 'darkblue' }}>
-            Recuperados: {formatValue(Number(dataApi.recovered || 0))}
-          </TextHelpFirst>
-          <TextHelpFirst style={{ color: 'darkgreen' }}>
-            Casos confirmados: {formatValue(Number(dataApi.infected || 0))}
-          </TextHelpFirst>
-          <TextHelpFirst style={{ color: 'red' }}>
-            Mortes: {formatValue(Number(dataApi.deceased || 0))}
-          </TextHelpFirst>
+          <Divider>
+            <TextHelpFirst style={{ color: 'darkblue' }}>
+              Recuperados: {formatValue(Number(dataApi.recovered || 0))}
+            </TextHelpFirst>
+            <TextHelpFirst style={{ color: 'darkgreen' }}>
+              Casos confirmados: {formatValue(Number(dataApi.infected || 0))}
+            </TextHelpFirst>
+            <TextHelpFirst style={{ color: 'red' }}>
+              Mortes: {formatValue(Number(dataApi.deceased || 0))}
+            </TextHelpFirst>
 
-          <TextData>
-            Atualizado em:{' '}
-            {moment(dataApi.lastUpdatedAtApify || new Date()).format(
-              'DD/MM/YYYY'
-            )}
-          </TextData>
-        </Divider>
+            <TextData>
+              Atualizado em:{' '}
+              {moment(dataApi.lastUpdatedAtApify || new Date()).format(
+                'DD/MM/YYYY'
+              )}
+            </TextData>
+          </Divider>
+          <SpanBold>Casos de covid-19 por estado brasileiro:</SpanBold>
+
+          {graphicData.map((item) => (
+            <RowStatesCases>
+              <StateName>{item.name}</StateName>
+              <StateCases>{formatValue(Number(item.cases || 0))}</StateCases>
+            </RowStatesCases>
+          ))}
+        </>
       ) : (
         <Spinner visible={!dataApi} textContent={'Loading...'} textStyle={{}} />
-      )}
-      <SpanBold>Casos por estado:</SpanBold>
-
-      {graphicData ? (
-        graphicData.map((item) => (
-          <RowStatesCases>
-            <StateName>{item.name}</StateName>
-            <StateCases>{formatValue(Number(item.cases || 0))}</StateCases>
-          </RowStatesCases>
-        ))
-      ) : (
-        <Spinner
-          visible={!graphicData}
-          textContent={'Loading...'}
-          textStyle={{}}
-        />
       )}
     </Wrapper>
   );

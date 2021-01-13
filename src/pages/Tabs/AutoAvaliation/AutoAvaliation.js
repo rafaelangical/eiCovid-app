@@ -127,11 +127,19 @@ export default function AutoAvaliacao() {
   const [step2, setStep2] = useState(false);
   const [step3, setStep3] = useState(false);
   const [step4, setStep4] = useState(false);
+
   const [stepInit, setStepInit] = useState(true);
+
   const [febre, setFebre] = useState(null);
+  const [faltaDeAr, setFaltaDeAr] = useState(null);
   const [tosse, setTosse] = useState(null);
   const [garganta, setGarganta] = useState(null);
-  const [faltaDeAr, setFaltaDeAr] = useState(null);
+  const [dores, setDores] = useState(null);
+  const [diarreia, setDiarreia] = useState(null);
+  const [paladar, setPaladar] = useState(null);
+  const [peito, setPeito] = useState(false);
+  const [cansaco, setCansaco] = useState(null);
+  const [dorCabeca, setDorCabeca] = useState(null);
   const [result, setResult] = useState(null);
 
   const initSteps = () => {
@@ -148,12 +156,15 @@ export default function AutoAvaliacao() {
     setStep2(false);
     setStep3(true);
     if (
-      (febre && tosse && faltaDeAr && garganta) ||
-      (febre && tosse && faltaDeAr)
+      (febre && tosse && faltaDeAr && garganta && dorCabeca && paladar) ||
+      (febre && tosse && faltaDeAr && dorCabeca && paladar) ||
+      (febre && dorCabeca && paladar) ||
+      (paladar && faltaDeAr) ||
+      (febre && dorCabeca && faltaDeAr)
     ) {
       setResult('Positivo');
     } else if (
-      (febre && tosse && faltaDeAr) ||
+      (febre && tosse && faltaDeAr && garganta) ||
       (febre && tosse) ||
       (febre && faltaDeAr) ||
       (faltaDeAr && tosse)
@@ -273,6 +284,14 @@ export default function AutoAvaliacao() {
               <Title>2/3</Title>
             </Divider>
             <Divider style={{ flex: 1 }}>
+              <TextHelpSteps style={{ fontSize: 20 }}>
+                Segundo a Organização Mundial de Saúde os sintomas da COVID-19
+                podem variar de um resfriado, a uma Síndrome Gripal-SG (presença
+                de um quadro respiratório agudo, caracterizado por, pelo menos
+                dois dos seguintes sintomas: sensação febril ou febre associada
+                a dor de garganta, dor de cabeça, tosse, coriza) até uma
+                pneumonia severa.
+              </TextHelpSteps>
               <TextHelpSteps>
                 Está sentindo algum desses sintomas ?
               </TextHelpSteps>
@@ -298,15 +317,15 @@ export default function AutoAvaliacao() {
                 <TextHelpStepsCheckBox>Dor de cabeça</TextHelpStepsCheckBox>
                 <TextCheckbox>Sim</TextCheckbox>
                 <CheckBox
-                  checked={febre === true ? true : false}
-                  onChange={() => setFebre(!febre)}
-                  value={febre}
+                  checked={dorCabeca === true ? true : false}
+                  onChange={() => setDorCabeca(!dorCabeca)}
+                  value={dorCabeca}
                 />
                 <TextCheckbox>Não</TextCheckbox>
                 <CheckBox
-                  onChange={() => setFebre(!febre)}
-                  checked={febre === false ? true : false}
-                  value={!febre}
+                  onChange={() => setDorCabeca(!dorCabeca)}
+                  checked={dorCabeca === false ? true : false}
+                  value={!dorCabeca}
                 />
               </DividerSteps>
               <DividerSteps>
@@ -360,15 +379,15 @@ export default function AutoAvaliacao() {
                 <TextHelpStepsCheckBox>Cansaço</TextHelpStepsCheckBox>
                 <TextCheckbox>Sim</TextCheckbox>
                 <CheckBox
-                  checked={garganta === true ? true : false}
-                  onChange={() => setGarganta(!garganta)}
-                  value={garganta}
+                  checked={cansaco === true ? true : false}
+                  onChange={() => setCansaco(!cansaco)}
+                  value={cansaco}
                 />
                 <TextCheckbox>Não</TextCheckbox>
                 <CheckBox
-                  onChange={() => setGarganta(!garganta)}
-                  checked={garganta === false ? true : false}
-                  value={!garganta}
+                  onChange={() => setCansaco(!cansaco)}
+                  checked={cansaco === false ? true : false}
+                  value={!cansaco}
                 />
               </DividerSteps>
 
@@ -378,15 +397,15 @@ export default function AutoAvaliacao() {
                 </TextHelpStepsCheckBox>
                 <TextCheckbox>Sim</TextCheckbox>
                 <CheckBox
-                  checked={garganta === true ? true : false}
-                  onChange={() => setGarganta(!garganta)}
-                  value={garganta}
+                  checked={dores === true ? true : false}
+                  onChange={() => setDores(!dores)}
+                  value={dores}
                 />
                 <TextCheckbox>Não</TextCheckbox>
                 <CheckBox
-                  onChange={() => setGarganta(!garganta)}
-                  checked={garganta === false ? true : false}
-                  value={!garganta}
+                  onChange={() => setDores(!dores)}
+                  checked={dores === false ? true : false}
+                  value={!dores}
                 />
               </DividerSteps>
 
@@ -394,15 +413,15 @@ export default function AutoAvaliacao() {
                 <TextHelpStepsCheckBox>Diarreia</TextHelpStepsCheckBox>
                 <TextCheckbox>Sim</TextCheckbox>
                 <CheckBox
-                  checked={garganta === true ? true : false}
-                  onChange={() => setGarganta(!garganta)}
-                  value={garganta}
+                  checked={diarreia === true ? true : false}
+                  onChange={() => setDiarreia(!diarreia)}
+                  value={diarreia}
                 />
                 <TextCheckbox>Não</TextCheckbox>
                 <CheckBox
-                  onChange={() => setGarganta(!garganta)}
-                  checked={garganta === false ? true : false}
-                  value={!garganta}
+                  onChange={() => setDiarreia(!diarreia)}
+                  checked={diarreia === false ? true : false}
+                  value={!diarreia}
                 />
               </DividerSteps>
 
@@ -412,15 +431,15 @@ export default function AutoAvaliacao() {
                 </TextHelpStepsCheckBox>
                 <TextCheckbox>Sim</TextCheckbox>
                 <CheckBox
-                  checked={garganta === true ? true : false}
-                  onChange={() => setGarganta(!garganta)}
-                  value={garganta}
+                  checked={paladar === true ? true : false}
+                  onChange={() => setPaladar(!paladar)}
+                  value={paladar}
                 />
                 <TextCheckbox>Não</TextCheckbox>
                 <CheckBox
-                  onChange={() => setGarganta(!garganta)}
-                  checked={garganta === false ? true : false}
-                  value={!garganta}
+                  onChange={() => setPaladar(!paladar)}
+                  checked={paladar === false ? true : false}
+                  value={!paladar}
                 />
               </DividerSteps>
               <DividerSteps>
@@ -429,15 +448,15 @@ export default function AutoAvaliacao() {
                 </TextHelpStepsCheckBox>
                 <TextCheckbox>Sim</TextCheckbox>
                 <CheckBox
-                  checked={garganta === true ? true : false}
-                  onChange={() => setGarganta(!garganta)}
-                  value={garganta}
+                  checked={peito === true ? true : false}
+                  onChange={() => setPeito(!peito)}
+                  value={peito}
                 />
                 <TextCheckbox>Não</TextCheckbox>
                 <CheckBox
-                  onChange={() => setGarganta(!garganta)}
-                  checked={garganta === false ? true : false}
-                  value={!garganta}
+                  onChange={() => setPeito(!peito)}
+                  checked={peito === false ? true : false}
+                  value={!peito}
                 />
               </DividerSteps>
             </Divider>

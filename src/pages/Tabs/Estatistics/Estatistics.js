@@ -155,7 +155,7 @@ const Estatistics = () => {
           <SpanBold>Casos de covid-19 por estado brasileiro:</SpanBold>
 
           {graphicData.map((item) => (
-            <RowStatesCases>
+            <RowStatesCases key={item.name}>
               <StateName>{item.name}</StateName>
               <StateCases>{formatValue(Number(item.cases || 0))}</StateCases>
             </RowStatesCases>

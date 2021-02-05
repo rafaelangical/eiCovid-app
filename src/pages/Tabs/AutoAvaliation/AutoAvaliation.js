@@ -86,8 +86,8 @@ const ArrowBack = styled.TouchableOpacity`
   width: 100px;
   height: 70px;
   position: absolute;
-  left: 15;
-  top: 40;
+  left: 15px;
+  top: 40px;
   margin-bottom: 15px;
 `;
 
@@ -551,7 +551,7 @@ export default function AutoAvaliacao() {
                 </Divider>
                 <Divider style={{ flex: 2 }}>
                   <TextHelpSteps>
-                    Você deve ir o mair rápido possivel a um hospital !
+                    Você deve ir o mais rápido possivel a um hospital !
                   </TextHelpSteps>
                   <TextHelpSteps>
                     Recomendamos a você que selecione siga as opções abaixo, a
